@@ -1,0 +1,24 @@
+# Web framework
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+
+# LangChain ecosystem
+langchain>=0.2.0
+langchain-community>=0.2.0
+langchain-openai>=0.1.8
+
+# Vector database client
+qdrant-client>=1.9.0
+
+# PDF loading
+pypdf>=4.2.0
+
+# HTTP client (for RACHEL URL fetching)
+httpx>=0.27.0
+
+# Settings management
+pydantic-settings>=2.2.0
+pydantic>=2.7.0
+
+# Utility
+python-multipart>=0.0.9

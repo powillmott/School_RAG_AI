@@ -1,0 +1,33 @@
+services:
+  # ── The "Brain": Your custom FastAPI / LangChain app ──────────────────────
+  ai-backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      # Swap LLM_BASE_URL to the DGX Spark IP when you arrive in India
+      - LLM_BASE_URL=http://ollama-service:11434/v1
+      - VECTOR_DB_URL=http://qdrant:6333
+      - RACHEL_URL=http://rachel-server.local
+    depends_on:
+      - qdrant
+      - ollama-service
+    volumes:
+      - ./data:/app/data   # mount local sample PDFs into the container
+
+  # ── The "Memory": Qdrant Vector Database ──────────────────────────────────
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+    volumes:
+      - ./qdrant_storage:/qdrant/storage
+
+  # ── The "Inference" (laptop / local testing only) ─────────────────────────
+  # Replace this service with the DGX Spark endpoint in production.
+  ollama-service:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./ollama_data:/root/.ollama
